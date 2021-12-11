@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
-import datetime
+from datetime import datetime, timezone
 
 SESSION = requests.Session()
 
@@ -27,17 +27,18 @@ def extract_content(page_url: str) -> str:
     content = soup.find_all('div', class_ = 'quote')
     return content
 
-def scrape_content(content: str) -> None:
+def scrape_content(content: str) -> None:   
     """
-    This functions takes the HTML content of a specific page URL as an input argument; scrapes the quotes and their related attributes and stores it in 'all_books' list
+    This functions takes the HTML content of a specific page URL as an input argument; scrapes the quotes along with their related attributes and stores it in 'all_books' list
 
     Args:
         content (str): The HTML content having the quotes and their related attributes from a specific page
     Returns:
-        This function returns nothing but adds the scraped content into 'all_books' list
+        None: This function returns nothing but adds the scraped content into 'all_books' list
     """
     
-    current_utc_timestamp = datetime.datetime.now(datetime.timezone.utc).strftime('%d-%b-%Y %H:%M:%S')
+    utc_timezone = timezone.utc
+    current_utc_timestamp = datetime.now(utc_timezone).strftime('%d-%b-%Y %H:%M:%S')
 
     for item in content:
         quote = item.find('span', class_='text').text
@@ -75,6 +76,9 @@ def extract_nextpage_link(page_url: str) -> str:
     else:
         next_page_link = None
     return next_page_link
+
+# Testing the scraper template #
+# ---------------------------- #
 
 if __name__ == '__main__':
     

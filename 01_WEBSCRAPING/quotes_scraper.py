@@ -26,6 +26,7 @@ def main() -> None:
         else:
             next_page_link = extract_nextpage_link(page_url)
             page_url = next_page_link
+    return
 
 def load_data() -> None:
     """
@@ -33,7 +34,8 @@ def load_data() -> None:
     """
     
     quotes_df = pd.DataFrame(all_quotes)
-    quotes_df.to_csv('quotes_data.csv', index=False)
+    quotes_df.to_csv('quotes_raw_data.csv', encoding='utf-8', index=False)
+    return
 
 if __name__ == '__main__':
     
@@ -44,11 +46,11 @@ if __name__ == '__main__':
     print(ascii_art_title)
     print('Collecting Quotes...')
     
-    start_time = datetime.datetime.now()
+    start_time = datetime.now()
     
     main()
     
-    end_time = datetime.datetime.now()
+    end_time = datetime.now()
     scraping_time = end_time - start_time
     
     print('\n')
@@ -61,4 +63,4 @@ if __name__ == '__main__':
     load_data()
     
     print('Data Exported to CSV...')
-    print('Webscraping completed !!!')
+    print('Webscraping Completed !!!')
